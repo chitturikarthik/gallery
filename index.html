@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.gallery img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+}
+
+.popup-img {
+  display: block;
+  margin: auto;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.close {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 40px;
+  font-weight: bold;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2em;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5em;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.prev {
+  left: 1em;
+}
+
+.next {
+  right: 1em;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <div>
+          <img src="1.jpg" alt=" 1">
+        </div>
+        <div>
+          <img src="2.jpg" alt=" 2">
+        </div>
+        <div>
+          <img src="3.jpg" alt=" 3">
+        </div>
+        <!-- Add more divs with images here -->
+      </div>
+      
+      <div class="popup">
+        <span class="close">&times;</span>
+        <div class="popup-content">
+          <img class="popup-img" src="">
+          <a class="prev">&#10094;</a>
+          <a class="next">&#10095;</a>
+        </div>
+      </div>
+      
+      <script>
+const gallery = document.querySelector('.gallery');
+const popup = document.querySelector('.popup');
+const popupImg = document.querySelector('.popup-img');
+const close = document.querySelector('.close');
+const prev = document.querySelector('.prev');
+const next = document.querySelector('.next');
+let currentImg;
+
+gallery.addEventListener('click', (e) => {
+  if (e.target.tagName === 'IMG') {
+    const imgSrc = e.target.getAttribute('src');
+    currentImg = Array.from(gallery.children).indexOf(e.target);
+    popupImg.setAttribute('src', imgSrc);
+    popup.style.display = 'block';
+  }
+});
+
+close.addEventListener('click', () => {
+  popup.style.display = 'none';
+});
+
+prev.addEventListener('click', () => {
+  currentImg--;
+  if (currentImg < 0) {
+    currentImg = gallery.children.length - 1;
+  }
+  const prevImgSrc = gallery.children[currentImg].querySelector('img').getAttribute('src');
+  popupImg.setAttribute('src', prevImgSrc);
+});
+
+next.addEventListener('click', () => {
+  currentImg++;
+  if (currentImg >= gallery.children.length) {
+    currentImg = 0;
+  }
+  const nextImgSrc = gallery.children[currentImg].querySelector('img').getAttribute('src');
+  popupImg.setAttribute('src', nextImgSrc);
+});
+    </script>
+</body>
+</html>
